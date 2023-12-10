@@ -20,7 +20,7 @@ namespace WindowsFormsApp92
     public partial class Form1 : Form
     {
         //バージョンを定義
-        int version = 101;
+        int version = 102;
         //変数を用意
         string apppath, inipath,thfpathAfter13,backupfolder;
         bool menzyo;
