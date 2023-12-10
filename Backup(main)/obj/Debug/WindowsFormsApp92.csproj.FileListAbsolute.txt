@@ -1,0 +1,14 @@
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\WindowsFormsApp92.csproj.AssemblyReference.cache
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\WindowsFormsApp92.Form1.resources
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\WindowsFormsApp92.Properties.Resources.resources
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\WindowsFormsApp92.csproj.GenerateResource.cache
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\WindowsFormsApp92.csproj.CoreCompileInputs.cache
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\bin\Debug\ThBackup.exe.config
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\bin\Debug\ThBackup.exe.manifest
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\bin\Debug\ThBackup.application
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\bin\Debug\ThBackup.exe
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\bin\Debug\ThBackup.pdb
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\ThBackup.exe.manifest
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\ThBackup.application
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\ThBackup.exe
+C:\Users\sagume\source\repos\WindowsFormsApp92\WindowsFormsApp92\obj\Debug\ThBackup.pdb
