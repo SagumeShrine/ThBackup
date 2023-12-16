@@ -54,28 +54,36 @@ namespace ConsoleApp20
                 apppath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"\\THbackupBySuG";
                 inipath = apppath+"\\settings.ini";
                 thfpathAfter13= Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+"\\ShanghaiAlice\\";
-                for (int i = 13; i<=19; i++)
+                for (int i = 6; i<=19; i++)
                 {
+                    string num;
+                    if(i<10)
+                        num="0"+i.ToString();
+                    else
+                        num =i.ToString();
+
                     string s;
-                    bool EXI = Inicontrol.Readfromini(inipath, $"th{i}", "pc", out s);
+                    bool EXI = Inicontrol.Readfromini(inipath, $"th{num}", "pc", out s);
                     if (EXI)
                     {
                         if (Convert.ToBoolean(s))
                         {
-                            Inicontrol.Readfromini(inipath, $"th{i}", "only_save", out s);
+                            Inicontrol.Readfromini(inipath, $"th{num}", "only_save", out s);
                             DateTime dateTime = DateTime.Now;
                             if (Convert.ToBoolean(s))//セーブのみ
                             {
-
-                                string path = apppath+$"\\backups\\autosave\\th{i}\\{dateTime.ToString("yyyy-MMdd-HHmmss")}.dat";
-                                File.Copy(thfpathAfter13+$"th{i}\\scoreth{i}.dat", path, true);
+                                Inicontrol.Readfromini(inipath, $"th{num}","path",out s);
+                                string path = apppath+$"\\backups\\autosave\\th{num}\\{dateTime.ToString("yyyy-MMdd-HHmmss")}.dat";
+                                if(!Directory.Exists(Path.GetDirectoryName(path)))
+                                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                                File.Copy(s, path, true);
 
                             }
                             else//全体
                             {
-                                string path = apppath+$"\\backups\\autosave\\th{i}\\{dateTime.ToString("yyyy-MMdd-HHmmss")}";
-                                CopyDirectory(thfpathAfter13+$"th{i}", path);
-
+                                Inicontrol.Readfromini(inipath, $"th{num}", "dirpath", out s);
+                                string path = apppath+$"\\backups\\autosave\\th{num}\\{dateTime.ToString("yyyy-MMdd-HHmmss")}";
+                                CopyDirectory(s, path);
                             }
                         }
                     }
