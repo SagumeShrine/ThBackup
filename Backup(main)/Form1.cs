@@ -20,7 +20,7 @@ namespace WindowsFormsApp92
     public partial class Form1 : Form
     {
         //バージョンを定義
-        int version = 102;
+        int version = 103;
         //変数を用意
         string apppath, inipath,thfpathAfter13,backupfolder;
         bool menzyo;
@@ -73,12 +73,14 @@ namespace WindowsFormsApp92
         /// <summary>
         /// GUIにiniの内容を適用する
         /// </summary>
-        private void SettingsGUI()
+        private void SettingsGUI(bool newone =false)
         {
             string s;
-            
-            if (Inicontrol.Readfromini(inipath, "th"+thconvert(comboBox1.Text), "path", out s)) //設定があるかどうか
+
+            if (Inicontrol.Readfromini(inipath, "th"+thconvert(comboBox1.Text), "path", out s)&&!newone) //設定があるかどうか
             {
+               
+                thdir.Enabled=only_save.Enabled = true;
                 //設定がある場合読み込む
                 groupBox1.Enabled = true;
                 scdat.Text=s;
@@ -89,16 +91,27 @@ namespace WindowsFormsApp92
                 Inicontrol.Readfromini(inipath, "th"+thconvert(comboBox1.Text), "only_save", out s);
                 only_save.Checked=Convert.ToBoolean(s);
                 Status.Text="バックアップ設定が見つかりました";
+
+                if(int.Parse(thconvert(comboBox1.Text))<=12)
+                    thdir.Enabled=only_save.Enabled = false;
                 //設定を画面に反映するとき、チェックボックスなどの変更をプログラムが行うのでチェックボックスの変更を検知してプログラムが保存ボタンを押すまで作品の選択などを禁止してしまう。
                 //そのため、プログラムがチェックボックスを変更するときはmenzyo(menjoでよくね？)をtrueにしてチェックボックスの変更があっても作品の選択を許可する。
                 //iniの内容を適用し終わったのでmenzyoはfalseにしておく。
                 menzyo=false;
+            }
+            else if (newone)
+            {
+                groupBox1.Enabled = pc.Checked=only_save.Checked=true;
+                thdir.Enabled=only_save.Enabled = false;
+                thdir.Text="";
+                
             }
             else //そもそも設定が見つからない
             {
                 Status.Text="バックアップ設定が見つかりません";
                 groupBox1.Enabled=false;
             }
+            
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //作品の選択があったとき
 
@@ -195,7 +208,7 @@ namespace WindowsFormsApp92
             {
                 //適用は成功したらコントロールを戻してあげる
                 button4.Enabled=false; 
-                button3.Enabled=button2.Enabled=comboBox1.Enabled=button1.Enabled=button2.Enabled=button5.Enabled=true;
+                button7.Enabled=button3.Enabled=button2.Enabled=comboBox1.Enabled=button1.Enabled=button2.Enabled=button5.Enabled=true;
                 MessageBox.Show("ほぞんしたお","完了",MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else //失敗
@@ -207,6 +220,11 @@ namespace WindowsFormsApp92
 
         private void button5_Click(object sender, EventArgs e) //作品を選択して検出が押された
         {
+            if(int.Parse(thconvert(comboBox1.Text))<13)
+            {
+                MessageBox.Show("神霊廟以降の整数作品のセーブを自動検出することはできません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
             //バックアップ設定を上書きしてよいか尋ねる
             if (MessageBox.Show($"{comboBox1.Text}のバックアップ設定を上書きします。よろしいですか？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)==DialogResult.Cancel)
                 return;
@@ -236,7 +254,7 @@ namespace WindowsFormsApp92
             if (!menzyo)
             {
                 button4.Enabled=true;
-                button3.Enabled=button2.Enabled=comboBox1.Enabled=button1.Enabled=button2.Enabled=button5.Enabled=false;
+                button7.Enabled=button3.Enabled=button2.Enabled=comboBox1.Enabled=button1.Enabled=button2.Enabled=button5.Enabled=false;
                 Status.Text="保存してください。";
             }
 
@@ -273,24 +291,29 @@ namespace WindowsFormsApp92
 
             if (only_save)
             {
-
+                string saki;
+                Inicontrol.Readfromini(inipath,$"th{thconvert(comboBox1.Text)}","path",out  saki);
                 DirectoryInfo di = new DirectoryInfo(folderPath);
                 //datを全て検出,filesに格納
                 List<FileInfo> files = di.GetFiles("*.dat").OrderBy(f => f.Name).ToList();
                 //東方のセーブをを上書きする前にthxxBUCKUP.datとして保存しておく
                 if (File.Exists(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP.dat"))
                     File.Delete(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP.dat");
-                File.Move(thfpathAfter13+$"th{thconvert(comboBox1.Text)}\\scoreth{thconvert(comboBox1.Text)}.dat", apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP.dat");
+                File.Move(saki, apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP.dat");
                 if(auto)//autosaveが選択されたとき
                     //名前的に一番新しいバックアップから復元しておく
-                    File.Copy(apppath+$"\\backups\\autosave\\th{thconvert(comboBox1.Text)}\\"+files[files.Count-1], thfpathAfter13+$"th{thconvert(comboBox1.Text)}\\scoreth{thconvert(comboBox1.Text)}.dat", true);
+                    File.Copy(apppath+$"\\backups\\autosave\\th{thconvert(comboBox1.Text)}\\"+files[files.Count-1], saki, true);
                 else//手動セーブから選択されたとき
                 //名前的に(ry
-                File.Copy(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}\\"+files[files.Count-1], thfpathAfter13+$"th{thconvert(comboBox1.Text)}\\scoreth{thconvert(comboBox1.Text)}.dat", true);
+                File.Copy(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}\\"+files[files.Count-1], saki, true);
                 Status.Text="スコアのみ復元しました";
+                MessageBox.Show("復元しましたよ", "復元完了",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
             else
-            {                
+            {
+                string saki;
+                Inicontrol.Readfromini(inipath, $"th{thconvert(comboBox1.Text)}", "dirpath", out saki);
+
                 DirectoryInfo di = new DirectoryInfo(folderPath);
                 //すべてのディレクトリを取得,foldersに格納
                 List<DirectoryInfo> folders = di.GetDirectories("*").OrderBy(f => f.Name).ToList();
@@ -298,15 +321,17 @@ namespace WindowsFormsApp92
                 if (Directory.Exists(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP"))
                     Directory.Delete(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP", true);
                 //東方のセーブを上書きする前にthxxBUCKPUPというフォルダーを保存しておく
-                Directory.Move(thfpathAfter13+$"th{thconvert(comboBox1.Text)}", apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP");
+                Directory.Move(saki, apppath+$"\\backups\\th{thconvert(comboBox1.Text)}BACKUP");
                 if(auto)//autosaveが選択されたとき
                     //名前的に一番新しいバックアップから復元しておく
-                    CopyDirectory(apppath+$"\\backups\\autosave\\th{thconvert(comboBox1.Text)}\\{folders[folders.Count-1]}", thfpathAfter13+$"th{thconvert(comboBox1.Text)}");
+                    CopyDirectory(apppath+$"\\backups\\autosave\\th{thconvert(comboBox1.Text)}\\{folders[folders.Count-1]}", saki);
                 else
                     //名前的に略
-                    CopyDirectory(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}\\{folders[folders.Count-1]}", thfpathAfter13+$"th{thconvert(comboBox1.Text)}");
+                    CopyDirectory(apppath+$"\\backups\\th{thconvert(comboBox1.Text)}\\{folders[folders.Count-1]}", saki);
 
                 Status.Text="全て復元しました";
+                MessageBox.Show("復元しましたよ", "復元完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
         }
         private void button2_Click(object sender, EventArgs e) //バックアップをする
@@ -319,8 +344,10 @@ namespace WindowsFormsApp92
             if(Convert.ToBoolean(s)==true)　//セーブデータのみの時
             {
                 string path=apppath+$"\\backups\\th{thconvert(comboBox1.Text)}\\{dateTime.ToString("yyyy-MMdd-HHmmss")}.dat";
+                string backuppath;
+                Inicontrol.Readfromini(inipath, $"th{thconvert(comboBox1.Text)}","path",out backuppath);
                 //バックアップする
-                File.Copy(thfpathAfter13+$"th{thconvert(comboBox1.Text)}\\scoreth{thconvert(comboBox1.Text)}.dat",path,true);
+                File.Copy(backuppath,path,true);
                 if (DialogResult.Yes== MessageBox.Show("バックアップしました。バックアップフォルダを開きますか？", "成功", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
                     System.Diagnostics.Process.Start("EXPLORER.EXE", $@"/select,""{path}""");
             }
@@ -351,6 +378,44 @@ namespace WindowsFormsApp92
             BlockChangeing();
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("星蓮船以前のscore.dat取得は説明書を見て行ってください","注意",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            string thfpathBefore13 = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)+"\\VirtualStore\\Program Files";
+            if (int.Parse(thconvert(comboBox1.Text))<13)
+            {
+                openFileDialog1.InitialDirectory = thfpathBefore13;
+                if(int.Parse(thconvert(comboBox1.Text))<=9)
+                openFileDialog1.Filter="東方scoreファイル|score.dat";
+                else
+                openFileDialog1.Filter=$"東方scoreファイル|scoreth{thconvert(comboBox1.Text)}.dat";
+
+            }
+            else
+            {
+                openFileDialog1.Filter=$"東方scoreファイル|scoreth{thconvert(comboBox1.Text)}.dat";
+
+            }
+            openFileDialog1.Title="score.datを選んでください";
+            if(openFileDialog1.ShowDialog()==DialogResult.OK)
+            {
+                scdat.Text=openFileDialog1.FileName;
+            }
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (groupBox1.Enabled)
+            {
+                MessageBox.Show("既に設定が読み込まれていますよ", "警告", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+            menzyo=false;
+            SettingsGUI(true);
+            
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -358,7 +423,7 @@ namespace WindowsFormsApp92
         }
         private void button1_Click(object sender, EventArgs e) //全セーブ検出
         {
-            if (MessageBox.Show("現在保存されている全てのバックアップ設定を上書きします。よろしいですか？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)==DialogResult.Cancel)
+            if (MessageBox.Show("全セーブデータ検出機能では、神霊廟以降の整数作品のみを検出します。\r\nまた、現在保存されている全てのバックアップ設定を上書きします。よろしいですか？", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)==DialogResult.Cancel)
                 return;
             string Message="";
             //thn\scorethn.datが存在するか調べる

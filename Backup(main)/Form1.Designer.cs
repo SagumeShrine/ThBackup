@@ -33,6 +33,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,6 +45,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.Status = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button7 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +54,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(16, 53);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(212, 48);
+            this.button1.Size = new System.Drawing.Size(145, 48);
             this.button1.TabIndex = 0;
             this.button1.Text = "全セーブデータ検出";
             this.button1.UseVisualStyleBackColor = true;
@@ -61,11 +64,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("MS UI Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(62, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(447, 24);
+            this.label1.Size = new System.Drawing.Size(349, 24);
             this.label1.TabIndex = 1;
-            this.label1.Text = "東方Project 東方原作 自動バックアップツール";
+            this.label1.Text = "東方原作自動バックアップマネージャ";
             // 
             // comboBox1
             // 
@@ -73,6 +76,13 @@
             this.comboBox1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
+            "東方紅魔郷",
+            "東方妖々夢",
+            "東方永夜抄",
+            "東方花映塚",
+            "東方風神録",
+            "東方地霊殿",
+            "東方星蓮船",
             "東方神霊廟",
             "東方輝針城",
             "東方紺珠伝",
@@ -80,7 +90,7 @@
             "東方鬼形獣",
             "東方虹龍洞",
             "東方獣王園"});
-            this.comboBox1.Location = new System.Drawing.Point(132, 125);
+            this.comboBox1.Location = new System.Drawing.Point(137, 123);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(303, 33);
             this.comboBox1.TabIndex = 2;
@@ -90,7 +100,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(22, 128);
+            this.label2.Location = new System.Drawing.Point(27, 126);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 25);
             this.label2.TabIndex = 3;
@@ -98,6 +108,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
@@ -107,12 +118,23 @@
             this.groupBox1.Controls.Add(this.pc);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Location = new System.Drawing.Point(27, 164);
+            this.groupBox1.Location = new System.Drawing.Point(32, 162);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(408, 263);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "バックアップ設定";
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button6.Location = new System.Drawing.Point(335, 165);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(67, 19);
+            this.button6.TabIndex = 9;
+            this.button6.Text = "選択";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button4
             // 
@@ -146,7 +168,7 @@
             // 
             this.thdir.Location = new System.Drawing.Point(75, 190);
             this.thdir.Name = "thdir";
-            this.thdir.Size = new System.Drawing.Size(327, 19);
+            this.thdir.Size = new System.Drawing.Size(254, 19);
             this.thdir.TabIndex = 5;
             this.thdir.TextChanged += new System.EventHandler(this.thdir_TextChanged);
             // 
@@ -154,7 +176,7 @@
             // 
             this.scdat.Location = new System.Drawing.Point(75, 165);
             this.scdat.Name = "scdat";
-            this.scdat.Size = new System.Drawing.Size(327, 19);
+            this.scdat.Size = new System.Drawing.Size(254, 19);
             this.scdat.TabIndex = 4;
             this.scdat.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -202,9 +224,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(234, 53);
+            this.button5.Location = new System.Drawing.Point(163, 53);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(201, 48);
+            this.button5.Size = new System.Drawing.Size(145, 48);
             this.button5.TabIndex = 5;
             this.button5.Text = "作品を指定してデータ検出";
             this.button5.UseVisualStyleBackColor = true;
@@ -220,11 +242,26 @@
             this.Status.TabIndex = 6;
             this.Status.Text = "Ready";
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(312, 53);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(145, 48);
+            this.button7.TabIndex = 10;
+            this.button7.Text = "手動で作成";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 484);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.groupBox1);
@@ -263,6 +300,9 @@
         private System.Windows.Forms.TextBox thdir;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label Status;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button7;
     }
 }
 
