@@ -20,7 +20,7 @@ namespace WindowsFormsApp92
     public partial class Form1 : Form
     {
         //バージョンを定義
-        int version = 103;
+        int version = 104;
         //変数を用意
         string apppath, inipath,thfpathAfter13,backupfolder;
         bool menzyo;
@@ -90,6 +90,8 @@ namespace WindowsFormsApp92
                 pc.Checked=Convert.ToBoolean(s);
                 Inicontrol.Readfromini(inipath, "th"+thconvert(comboBox1.Text), "only_save", out s);
                 only_save.Checked=Convert.ToBoolean(s);
+                Inicontrol.Readfromini(inipath, "thall", "files", out s);
+
                 Status.Text="バックアップ設定が見つかりました";
 
                 if(int.Parse(thconvert(comboBox1.Text))<=12)
@@ -200,11 +202,13 @@ namespace WindowsFormsApp92
 
         private void button4_Click(object sender, EventArgs e)　//保存ボタンが押されたとき
         {
+            
             if(
             Inicontrol.Writetoini(inipath, "th"+thconvert(comboBox1.Text),"pc",pc.Checked.ToString())
             &&Inicontrol.Writetoini(inipath, "th"+thconvert(comboBox1.Text), "only_save", only_save.Checked.ToString())
             &&Inicontrol.Writetoini(inipath, "th"+thconvert(comboBox1.Text), "dirpath", thdir.Text)
-            &&Inicontrol.Writetoini(inipath, "th"+thconvert(comboBox1.Text), "path", scdat.Text)) //iniに設定を適用すると同時に全ての適用が上手くいったかを調べる
+            &&Inicontrol.Writetoini(inipath, "th"+thconvert(comboBox1.Text), "path", scdat.Text))
+             //iniに設定を適用すると同時に全ての適用が上手くいったかを調べる
             {
                 //適用は成功したらコントロールを戻してあげる
                 button4.Enabled=false; 
@@ -222,7 +226,7 @@ namespace WindowsFormsApp92
         {
             if(int.Parse(thconvert(comboBox1.Text))<13)
             {
-                MessageBox.Show("神霊廟以降の整数作品のセーブを自動検出することはできません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("星蓮船以前の整数作品のセーブを自動検出することはできません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
             //バックアップ設定を上書きしてよいか尋ねる
@@ -346,6 +350,10 @@ namespace WindowsFormsApp92
                 string path=apppath+$"\\backups\\th{thconvert(comboBox1.Text)}\\{dateTime.ToString("yyyy-MMdd-HHmmss")}.dat";
                 string backuppath;
                 Inicontrol.Readfromini(inipath, $"th{thconvert(comboBox1.Text)}","path",out backuppath);
+
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+
                 //バックアップする
                 File.Copy(backuppath,path,true);
                 if (DialogResult.Yes== MessageBox.Show("バックアップしました。バックアップフォルダを開きますか？", "成功", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
@@ -414,6 +422,11 @@ namespace WindowsFormsApp92
             menzyo=false;
             SettingsGUI(true);
             
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            BlockChangeing();
         }
 
         public Form1()

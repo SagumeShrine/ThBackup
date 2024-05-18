@@ -1,0 +1,12 @@
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\WindowsFormsApp93.csproj.AssemblyReference.cache
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\WindowsFormsApp93.Form1.resources
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\WindowsFormsApp93.Properties.Resources.resources
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\WindowsFormsApp93.csproj.GenerateResource.cache
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\WindowsFormsApp93.csproj.CoreCompileInputs.cache
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\bin\Debug\ThBackup.exe.config
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\bin\Debug\ThBackup.exe
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\bin\Debug\ThBackup.pdb
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\Interop.IWshRuntimeLibrary.dll
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\WindowsFormsApp93.csproj.ResolveComReference.cache
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\ThBackup.exe
+C:\Users\sagume\source\repos\WindowsFormsApp93\WindowsFormsApp93\obj\Debug\ThBackup.pdb
